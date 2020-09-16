@@ -18,11 +18,17 @@ const PersonForm = ({ errorStyle, setErrorStyle, setErrorMessage, persons, setPe
         .create(personObject)
           .then(person => {
             setPersons(persons.concat(person))
+            setErrorStyle({color: 'green'})  
+            setErrorMessage(
+              `Added ${personObject.name}`
+            )
           })
-      setErrorStyle({color: 'green'})  
-      setErrorMessage(
-        `Added ${personObject.name}`
-      )
+          .then(setErrorStyle({color: 'green'}))
+          .catch(error => {
+            setErrorStyle({color: 'red'})
+            setErrorMessage(error.response.data.error)
+          })
+
       setTimeout(() => {
         setErrorMessage(null)
       }, 3000)
